@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace属性：用来设置接口的全类名 -->
+<mapper namespace="com.fxs.mapper.SkuMapper">
+	<resultMap type="com.fxs.bean.MODEL_T_MALL_ATTR" id="map"
+		autoMapping="true">
+		<result column="attr_id" property="id"/>
+		<collection property="attr_values" ofType="com.fxs.bean.T_MALL_VALUE" 
+			autoMapping="true">
+			<result column="value_id" property="id"/>	
+		</collection>	
+	</resultMap>
+	
+	<select id="select_attr_list" parameterType="int" resultMap="map">
+		SELECT tma.id attr_id ,tmv.id value_id, tma.*,tmv.* FROM t_mall_attr tma
+		LEFT JOIN t_mall_value  tmv
+		ON tma.id = tmv.shxm_id
+		WHERE tma.flbh2 = #{class_2_id}
+	</select>
+	
+	<select id="sku_get_shp" resultType="com.fxs.bean.T_MALL_PRODUCT">
+		SELECT * FROM t_mall_product tmp
+		WHERE tmp.`pp_id`= #{pp_id} AND tmp.`flbh1`=#{flbh1}
+		AND tmp.`flbh2`=#{flbh2}
+	</select>
+	<!-- 返回主键 -->
+	<insert id="insert_sku" useGeneratedKeys="true" keyColumn="id" 
+	keyProperty="id" parameterType="com.fxs.bean.T_MALL_SKU">
+		insert into t_mall_sku(shp_id,kc,jg,sku_mch,kcdz) 
+		values(#{shp_id},#{kc},#{jg},#{sku_mch},#{kcdz} )
+	</insert>
+	<insert id="insert_sku_attr_value">
+		insert into t_mall_sku_attr_value(sku_id,shp_id,shxm_id,shxzh_id)
+		values
+		<foreach collection="list_av" item="av" separator=",">
+			(#{sku_id},#{shp_id},#{av.shxm_id},#{av.shxzh_id})
+		</foreach>
+	
+	</insert>
+	
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace属性：用来设置接口的全类名 -->
+<mapper namespace="com.fxs.mapper.AttrMapper">
+	<resultMap type="com.fxs.bean.MODEL_T_MALL_ATTR" id="map" autoMapping="true">
+		<result column="attr_id" property="id"/>
+		<collection property="attr_values" ofType="com.fxs.bean.T_MALL_VALUE" autoMapping="true">
+			<result column="value_id" property="id"/>
+		</collection>
+	</resultMap>
+	
+	<select id="select_attr_list_by_class_2_id" parameterType="int" resultMap="map">
+		SELECT tma.id attr_id, tmv.id value_id ,tma.*,tmv.* 
+		FROM t_mall_attr tma LEFT JOIN t_mall_value tmv
+		ON tma.id = tmv.`shxm_id`
+		WHERE tma.`flbh2`=#{class_2_id}	
+	</select>
+	<!-- 主键为自动生成，插入后，返回主键 -->
+	<insert id="insert_attr" useGeneratedKeys="true" keyColumn="id" keyProperty="attr.id">
+		insert into t_mall_attr(shxm_mch,flbh2) values(#{attr.shxm_mch},#{attr.flbh2})
+	</insert>
+	
+	<insert id="insert_value">
+		insert into t_mall_value(shxzh,shxm_id,shxzh_mch) values
+		<foreach collection="list_value" item="val" separator=",">
+			(#{val.shxzh},#{shxm_id},#{val.shxzh_mch})
+		</foreach>	
+	</insert>
+	
+</mapper>

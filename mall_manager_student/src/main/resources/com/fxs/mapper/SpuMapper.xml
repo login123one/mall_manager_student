@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace属性：用来设置接口的全类名 -->
+<mapper namespace="com.fxs.mapper.SpuMapper">
+    <!-- 主键自动生成，插入后，返回主键 -->
+	<insert id="insert_spu" useGeneratedKeys="true" keyColumn="id"
+		keyProperty="id" parameterType="com.fxs.bean.T_MALL_PRODUCT">
+		insert into
+		T_MALL_PRODUCT(
+		shp_mch,
+		shp_tp,
+		flbh1,
+		flbh2,
+		pp_id,
+		shp_msh
+		)
+		values(
+		#{shp_mch},
+		#{shp_tp},
+		#{flbh1},
+		#{flbh2},
+		#{pp_id},
+		#{shp_msh}
+		)
+	</insert>
+
+	
+	<insert id="insert_spu_tp" parameterType="map">
+		insert into t_mall_product_image(shp_id,url)
+		values
+		<foreach collection="list_image" item="image" separator=",">
+			(#{spu.id},#{image})
+		</foreach>	
+	</insert>
+	
+</mapper>
