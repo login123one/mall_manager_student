@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace属性：用来设置接口的全类名 -->
+<mapper namespace="com.fxs.mapper.SearchMapper">
+	<select id="select_sku_list" resultMap="sku_map">
+		SELECT sku.id sku_id,spu.id spu_id, tm.id tm_id,sku.*,spu.*,tm.* from t_mall_sku sku LEFT JOIN t_mall_product spu 
+		on  sku.shp_id =  spu.id 
+		LEFT JOIN t_mall_trade_mark tm ON spu.pp_id = tm.Id
+		where spu.flbh2 =#{class_2_id}
+	</select>
+	
+	<resultMap type="com.fxs.bean.MODEL_T_MALL_SKU" id="sku_map" autoMapping="true" >
+		<result column="sku_id" property="id"/>
+		<association property="spu" javaType="com.fxs.bean.T_MALL_PRODUCT" autoMapping="true">
+			<result column="spu_id" property="id"/>
+		</association>
+		
+		<association property="tm" javaType="com.fxs.bean.T_MALL_TRADE_MARK" autoMapping="true">
+			<result column="tm_id" property="id" />
+		</association>		
+	</resultMap>
+	
+	
+	<resultMap type="com.fxs.bean.MODEL_T_MALL_ATTR" id="attr_map" autoMapping="true">
+		<result column="attr_id" property="id"/>
+		<collection property="attr_values" ofType="com.fxs.bean.T_MALL_VALUE" autoMapping="true">
+			<result column="value_id" property="id"/>
+		</collection>
+	</resultMap>
+	
+	<select id="select_attr_list" parameterType="int" resultMap="attr_map">
+		SELECT tma.id attr_id, tmv.id value_id ,tma.*,tmv.* 
+		FROM t_mall_attr tma LEFT JOIN t_mall_value tmv
+		ON tma.id = tmv.`shxm_id`
+		WHERE tma.`flbh2`=#{class_2_id}	
+	</select>
+	
+	<select id="select_sku_by_attr" resultMap="sku_map">
+		SELECT sku.id sku_id,spu.id spu_id, tm.id tm_id,sku.*,spu.*,tm.* from t_mall_sku sku LEFT JOIN t_mall_product spu 
+		on  sku.shp_id =  spu.id 
+		LEFT JOIN t_mall_trade_mark tm ON spu.pp_id = tm.Id
+		where spu.flbh2 =#{class_2_id}
+		${sql}
+	</select>
+	<resultMap type="com.fxs.bean.MODEL_T_MALL_SKU_DETAIL" id="select_list_sku_map" autoMapping="true">
+		<result column="sku_id" property="id" />
+		<association property="spu" autoMapping="true" javaType="com.fxs.bean.T_MALL_PRODUCT">
+			<result column="spu_id" property="id"/>
+		</association>
+		
+		<collection property="list_av_name" autoMapping="true" ofType="com.fxs.bean.T_MALL_SKU_AV_NAME">
+		</collection>
+		
+		<collection property="list_image" autoMapping="true" ofType="com.fxs.bean.T_MALL_PRODUCT_IMAGE">
+			<result column="img_id" property="id"/>
+		</collection>
+	</resultMap>
+	
+	<select id="select_list_sku" resultMap="select_list_sku_map">
+		SELECT 
+			sku.id sku_id,
+			spu.id spu_id,
+			img.id img_id,
+			attr.id attr_id,
+			val.id val_id,
+			sku.*,spu.*,img.*,attr.*,val.*
+			
+		FROM
+			t_mall_sku sku,
+			t_mall_product spu,
+			t_mall_product_image img,
+			t_mall_sku_attr_value sav,
+			t_mall_attr attr,
+			t_mall_value val
+		WHERE
+			sku.shp_id = spu.Id
+			AND spu.Id = img.shp_id
+			AND sku.Id = sav.sku_id
+			AND sav.shxm_id = attr.Id
+			AND sav.shxzh_id = val.Id
+			AND sku_id = #{shu_id}
+	</select>
+	
+	<select id="get_sku_list_by_spuid" resultType="com.fxs.bean.T_MALL_SKU">
+		select * from t_mall_sku 
+		where shp_id = #{spu_id}
+	</select>
+	
+	<select id="select_list_sku_id" resultType="int">
+		SELECT id FROM t_mall_attr WHERE flbh2 = #{class_2_id}
+	</select>
+	
+	<select id="select_list_value_id" resultType="int"> 
+		SELECT id FROM t_mall_value WHERE shxm_id = #{attr_id}
+	</select>
+	
+</mapper>
