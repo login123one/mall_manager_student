@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace属性：用来设置接口的全类名 -->
+<mapper namespace="com.fxs.mapper.AddressMapper">
+	<insert id="insertAdress">
+		insert into t_mall_address(
+		Id,
+		yh_dz,
+		dzzt,
+		yh_id,
+		shjr,
+		lxfsh
+		) values(
+		 #{Id},#{yh_dz},#{dzzt},#{yh_id},#{shjr},#{lxfsh}
+		)
+	</insert>
+	
+	<delete id="deleteAdress">
+		delete from t_mall_address where id = #{id}
+	</delete>
+	<update id="updateAddress">
+		upadte t_mall_address set = #{yh_dz},
+		 set = #{dzzt},
+		set = #{yh_id},
+		set = #{shjr},
+		set = #{lxfsh} where id = #{id}
+	</update>
+	
+	<select id="selectAddress" resultType="com.fxs.bean.T_MALL_ADDRESS">
+		select * from t_mall_address where yh_id =#{id}
+	</select>
+	
+	<select id="select_address_by_id" resultType="com.fxs.bean.T_MALL_ADDRESS"> 
+		select  * from t_mall_address where id = #{id}
+	</select>
+	
+</mapper>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace属性：用来设置接口的全类名 -->
+<mapper namespace="com.fxs.mapper.UserMapper">
+	<select id="selectUser" resultType="com.fxs.bean.T_MALL_USER_ACCOUNT">
+		select * from t_mall_user_account where yh_mch=#{yh_mch} and yh_mm = #{yh_mm}
+	</select>
+	
+</mapper>
