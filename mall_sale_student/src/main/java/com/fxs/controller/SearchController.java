@@ -36,7 +36,7 @@ public class SearchController {
 	public String goto_class_select(int class_2_id, String class_2_name, ModelMap map) {
 
 		map.put("class_2_id", class_2_id);
-		map.put("class_2_name", class_2_id);
+		map.put("class_2_name", class_2_name);
 
 		List<MODEL_T_MALL_SKU> sku_list = new ArrayList<>();
 		// 拼接字符串key
@@ -48,10 +48,10 @@ public class SearchController {
 		if (sku_list == null || sku_list.size() == 0) {
 			// 通过数据库查询
 			sku_list = searchService.get_sku_list(class_2_id);
-			// 查询的结果再次放入redis中
+			//查询的结果再次放入redis中 
 			MyCacheUtil.setList(key, sku_list);
 
-			// 说明没有redis中没有keys的值
+			// 说明没有redis中没有keys，需要把所有class_2_id的sku值放到keys中
 			searchService.add_cache(class_2_id);
 
 		}

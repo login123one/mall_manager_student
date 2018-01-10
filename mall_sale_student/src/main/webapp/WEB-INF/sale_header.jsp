@@ -43,7 +43,7 @@
 <body>
 	
 			<c:if test="${empty user }">
-			<div id="cookie_value"></div>
+				<div id="cookie_value"></div>
 				<a href="goto_login.do">你好,请登录</a>
 				<a href="goto_register.do">免费注册</a>
 			</c:if>
