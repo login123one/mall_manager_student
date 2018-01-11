@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace属性：用来设置接口的全类名 -->
+<mapper namespace="com.fxs.mapper.ImportDataMapper">
+	<select id="select_sku_list" resultMap="sku_map">
+		SELECT sku.id sku_id,spu.id spu_id, tm.id tm_id,sku.*,spu.*,tm.* from t_mall_sku sku LEFT JOIN t_mall_product spu 
+		on  sku.shp_id =  spu.id 
+		LEFT JOIN t_mall_trade_mark tm ON spu.pp_id = tm.Id
+		where spu.flbh2 =#{class_2_id}
+	</select>
+	
+	<resultMap type="com.fxs.bean.MODEL_T_MALL_SKU_KEYWORD" id="sku_map" autoMapping="true" >
+		<result column="sku_id" property="id"/>	
+	</resultMap>
+	
+</mapper>

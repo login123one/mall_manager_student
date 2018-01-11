@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,7 +12,7 @@ public class MyUploadUtil {
 
 	public static List<String> upload_image(MultipartFile[] files) {
 		
-		List<String> list_image = new ArrayList<String>();
+		List<String> list_image = new CopyOnWriteArrayList<String>();
 		for(int i=0;i<files.length;i++) {
 			if(!files[i].isEmpty()) {
 				//创建唯一的图片名

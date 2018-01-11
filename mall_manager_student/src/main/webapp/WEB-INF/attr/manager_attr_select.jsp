@@ -72,31 +72,31 @@
 			}
 		});
 		//通过空间加载列表属性
-		$('#attr_list').datagrid({    
-		    url:'get_attr_list_json.do', 
-		    queryParams :{
-		    	class_2_id : id
-		    },
-		    columns:[[    
-		        {field:'id',title:'属性编号',width:100},    
-		        {field:'shxm_mch',title:'属性名称',width:100},   
-		        {field:'chjshj',title:'创建时间',width:300,
-		        	formatter: function(value,row,index){
-		  				var date = new Date(value);
-		  				return date.toLocaleString();
-					}
-		        },    
-		        {field:'attr_values',title:'属性值',width:300,
-		        	formatter: function(value,row,index){
-		  				var name="";
-						$(value).each(function(i,n){
-							name=name+" "+ n.shxzh+n.shxzh_mch;	
-						})
-						return name;
-					}
-		        }    
-		    ]]    
-		});
+// 		$('#attr_list').datagrid({    
+// 		    url:'get_attr_list_json.do', 
+// 		    queryParams :{
+// 		    	class_2_id : id
+// 		    },
+// 		    columns:[[    
+// 		        {field:'id',title:'属性编号',width:100},    
+// 		        {field:'shxm_mch',title:'属性名称',width:100},   
+// 		        {field:'chjshj',title:'创建时间',width:300,
+// 		        	formatter: function(value,row,index){
+// 		  				var date = new Date(value);
+// 		  				return date.toLocaleString();
+// 					}
+// 		        },    
+// 		        {field:'attr_values',title:'属性值',width:300,
+// 		        	formatter: function(value,row,index){
+// 		  				var name="";
+// 						$(value).each(function(i,n){
+// 							name=name+" "+ n.shxzh+n.shxzh_mch;	
+// 						})
+// 						return name;
+// 					}
+// 		        }    
+// 		    ]]    
+// 		});
 	}
 </script>
 	一级分类<select name="flbh1" id="class_1_select_spu" onchange="attr_get_class_2(this.value)"></select>

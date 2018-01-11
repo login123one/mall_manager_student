@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fxs.ec.mapper.Class1Mapper">
+  <select id="select_class_1" resultType="com.fxs.ec.bean.T_MALL_CLASS_1">
+    select id,flmch1 from t_mall_class_1
+  </select>
+  
+  <select id="select_class_2" parameterType="int" resultType="com.fxs.ec.bean.T_MALL_CLASS_2">
+    	SELECT * FROM t_mall_class_2 t2
+		LEFT JOIN t_mall_class_1 t1 ON t2.`flbh1`=t1.`Id`
+		WHERE t1.`Id` = #{id};
+  </select>
+  
+  <select id="select_class_1_tm" parameterType="int" resultType="com.fxs.ec.bean.T_MALL_TRADE_MARK">
+    	SELECT tm.`Id`,tm.`ppmch` FROM t_mall_trade_mark tm 
+		LEFT JOIN t_mall_tm_class  tc ON  tm.`Id`=tc.`pp_id`
+		WHERE tc.`flbh1`= #{id}
+  </select>
+  
+  
+</mapper>

@@ -52,15 +52,17 @@ public class AttrController {
 		return "attr/manager_attr_add";
 		
 	}
-	@RequestMapping("save_attr.do")//,ModelMap map
+	@RequestMapping("save_attr.do")//ModelMap map
 	public ModelAndView save_attr(SET_T_MALL_ATTR list_attr_set,int class_2_id,String class_2_name) {
 		//表单的提交用重定向
 		ModelAndView mav = new ModelAndView("redirect:/index.do");
-		mav.addObject("url", "goto_add_attr.do");
+		mav.addObject("url", "goto_add_attr.do?class_2_id="+class_2_id+"&class_2_name="+class_2_name);
 		mav.addObject("title", "属性添加页面");
 		
 		//保存属性和属性值得业务
 		attrService.save_attr_value(list_attr_set.getList_attr_set(),class_2_id);
+		
+		//这里没有更改生成的js文件，如果需要则要 重新
 		
 		//重定向到添加页面，所以要把class_2的id 和name重新存到域中
 		mav.addObject("class_2_id", class_2_id);

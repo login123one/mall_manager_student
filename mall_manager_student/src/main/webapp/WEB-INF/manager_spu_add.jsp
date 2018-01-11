@@ -53,7 +53,6 @@
 	}
 	
 	function remove_image(index){
-		alert(111);
 		rem_conut = rem_conut+1; 
 		$("#img_div_"+index).remove();
 		

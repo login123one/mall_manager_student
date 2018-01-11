@@ -33,7 +33,7 @@ public class MyCacheUtil {
 	public static <T> void setList(String key,List<T> t) {
 		
 		//redis为第三方客户端，容易出错，需要抓取异常
-		Jedis jedis =new Jedis();
+		Jedis jedis = new Jedis();
 		try {
 			jedis = JedisPoolUtils.getJedis();
 			for(int i=0;i<t.size();i++) {
@@ -41,11 +41,12 @@ public class MyCacheUtil {
 				String json = MyJsonUtil.object_to_json(t2);
 				jedis.zadd(key, i, json);
 			}
+			
+			jedis.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("redis未启动");
 		}
-		jedis.close();
+		
 		
 	}
 	

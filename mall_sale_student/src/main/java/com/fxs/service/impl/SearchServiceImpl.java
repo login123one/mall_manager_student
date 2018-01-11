@@ -108,7 +108,7 @@ public class SearchServiceImpl implements SearchService {
 				String key = "attr_"+class_2_id+"_"+attr_id+"_"+list_value_id.get(j);
 				
 				T_MALL_SKU_ATTR_VALUE t_MALL_SKU_ATTR_VALUE = new T_MALL_SKU_ATTR_VALUE();
-				
+				//
 				t_MALL_SKU_ATTR_VALUE.setShxm_id(attr_id);
 				t_MALL_SKU_ATTR_VALUE.setShxzh_id(list_value_id.get(j));
 				
