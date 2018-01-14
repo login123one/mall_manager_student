@@ -1,0 +1,76 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>com.atguigu.dubbo</groupId>
+  <artifactId>dubboProvider</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  
+  <properties><!-- 编译为java8版本 -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties> 
+  
+<dependencies>
+    <!-- 引入对外暴露的服务接口定义-->
+    <dependency>
+     <groupId>com.atguigu.dubbo</groupId>
+     <artifactId>dubboProvider-api1</artifactId>
+     <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <!-- dubbo采用spring配置方式，所以需要导入spring容器依赖 -->
+    <dependency>
+     <groupId>org.springframework</groupId>
+     <artifactId>spring-webmvc</artifactId>
+     <version>4.1.3.RELEASE</version>
+    </dependency>
+    <dependency>
+     <groupId>org.slf4j</groupId>
+     <artifactId>slf4j-log4j12</artifactId>
+     <version>1.6.4</version>
+    </dependency>
+    <dependency>
+     <groupId>com.alibaba</groupId>
+     <artifactId>dubbo</artifactId>
+     <version>2.5.7</version>
+     <exclusions>
+       <exclusion>
+         <!-- 排除传递spring依赖 -->
+         <artifactId>spring</artifactId>
+         <groupId>org.springframework</groupId>
+       </exclusion>
+     </exclusions>
+    </dependency>
+    <dependency>
+     <groupId>org.apache.zookeeper</groupId>
+     <artifactId>zookeeper</artifactId>
+     <version>3.3.3</version>
+    </dependency>
+    <dependency>
+     <groupId>com.github.sgroschupf</groupId>
+     <artifactId>zkclient</artifactId>
+     <version>0.1</version>
+    </dependency>
+</dependencies>
+  
+  <build>
+    <plugins>
+     <plugin>
+       <groupId>org.apache.tomcat.maven</groupId>
+       <artifactId>tomcat7-maven-plugin</artifactId>
+       <version>2.2</version>
+       <configuration>
+         <port>8888</port>
+         <path>/mydubbo</path>
+         <uriEncoding>UTF-8</uriEncoding>
+         <finalName>mydubbo</finalName>
+         <server>tomcat7</server>        
+       </configuration>
+     </plugin>
+    </plugins>
+  </build> 
+  
+</project>

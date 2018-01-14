@@ -48,6 +48,10 @@ public class OrderController {
 	public String goto_check_account(HttpSession session,BigDecimal zje,ModelMap map) {
 		
 		T_MALL_USER_ACCOUNT user = (T_MALL_USER_ACCOUNT) session.getAttribute("user");
+		
+		//此时要判断用户是否登录，这里没做判断
+		
+		
 		List<T_MALL_SHOPPINGCAR> list_cart = (List<T_MALL_SHOPPINGCAR>) session.getAttribute("list_cart_session");
 		
 		//收货地址

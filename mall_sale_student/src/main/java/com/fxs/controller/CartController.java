@@ -36,13 +36,13 @@ public class CartController {
 		//判断用户是否登录
 		if(cart.getYh_id()==0) {//用户未登录
 			
-			if(StringUtils.isBlank(list_cart_cookie)) {//判断cookie是否是空值
-				//cookie为空值，可以直接添加到cookie中
+			if(StringUtils.isBlank(list_cart_cookie)) {//判断是否存在cookie
+				//cookie不存在，直接添加到list_cart数组中
 				list_cart.add(cart);
 			}else {
 				//cookie不是空值
 				list_cart = MyJsonUtil.json_to_list(list_cart_cookie, T_MALL_SHOPPINGCAR.class);
-				boolean b = if_new_cart(list_cart, cart);//tures为新值
+				boolean b = if_new_cart(list_cart, cart);//true为新值
 					if(!b) {//判断当前传递过来的商品是否在cookie中有
 						for(int i=0;i<list_cart.size();i++) {
 							if(list_cart.get(i).getSku_id()==cart.getSku_id()) {
@@ -58,6 +58,7 @@ public class CartController {
 					}
 				
 			}
+			//跟新cookie
 			Cookie cookie = new Cookie("list_cart_cookie",MyJsonUtil.list_to_json(list_cart));
 			cookie.setMaxAge(60*60*24);
 			response.addCookie(cookie);
@@ -66,11 +67,11 @@ public class CartController {
 			//用户已登录,则操作数据库，同时通过session
 			list_cart=(List<T_MALL_SHOPPINGCAR>) session.getAttribute("list_cart_session");
 			
-			if(list_cart == null || list_cart.size()==0) {//判断数据库的session中的购物项是否为空
+			if(list_cart == null || list_cart.size()==0) {//判断session中的购物项是否为空
 				//session为空
 				//直接把购物项添加到数据库
 				cartService.add_cart(cart);
-				//同时要同步到session
+				//同时要同步到session , 这个list_cart直接是从session中获取，直接增删改就行，同时直接同步session
 				list_cart = new ArrayList<>();
 				list_cart.add(cart);
 				session.setAttribute("list_cart_session",list_cart );
@@ -137,11 +138,11 @@ public class CartController {
 		//判断是否登录
 		T_MALL_USER_ACCOUNT user = (T_MALL_USER_ACCOUNT) session.getAttribute("user");
 		List<T_MALL_SHOPPINGCAR> list_cart= null;
-		if(user==null) {
+		if(user==null) {//用户没有登录
 			//从cookie中取数据
 			list_cart = MyJsonUtil.json_to_list(list_cart_cookie, T_MALL_SHOPPINGCAR.class);
 			
-		}else{
+		}else{//用户一登录
 			//从session中取数据
 			list_cart = (List<T_MALL_SHOPPINGCAR>) session.getAttribute("list_cart_session");
 			
